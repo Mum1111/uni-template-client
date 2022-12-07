@@ -1,0 +1,4 @@
+# 忽略打包的文件
+src/unpackage
+tsconfig.json
+dist/*
