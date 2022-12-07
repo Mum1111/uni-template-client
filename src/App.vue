@@ -1,8 +1,4 @@
 <script>
-const a = [1, 2, 3]
-
-const ele = a.find((item) => item === 2)
-console.log("ele", ele)
 export default {
   onLaunch: function () {
     console.log("App Launch")
