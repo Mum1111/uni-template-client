@@ -16,10 +16,10 @@ export default class Request {
     this.header = options.header || {}
     //默认配置
     this.config = options.config || {
-      isPrompt: true,
-      load: true,
-      isFactory: true,
-      resend: 0,
+      isPrompt: true, //（默认 true 说明：本接口抛出的错误是否提示）
+      load: true, //（默认 true 说明：本接口是否提示加载动画）
+      isFactory: true, //（默认 true 说明：本接口是否调用公共的数据处理方法，设置false后isPrompt参数将失去作用）
+      resend: 0, // 当前重发次数
     }
   }
 
@@ -28,6 +28,46 @@ export default class Request {
       method: "GET",
       data,
       url,
+      ...options,
+    })
+  }
+
+  //post请求
+  post(url = "", data = {}, options = {}) {
+    return this.request({
+      method: "POST",
+      data: data,
+      url: url,
+      ...options,
+    })
+  }
+
+  //put请求
+  put(url = "", data = {}, options = {}) {
+    return this.request({
+      method: "PUT",
+      data: data,
+      url: url,
+      ...options,
+    })
+  }
+
+  //delete请求
+  delete(url = "", data = {}, options = {}) {
+    return this.request({
+      method: "DELETE",
+      data: data,
+      url: url,
+      ...options,
+    })
+  }
+
+  //jsonp请求(只限于H5使用)
+  jsonp(url = "", data = {}, options = {}) {
+    return this.request({
+      method: "JSONP",
+      data: data,
+      url: url,
       ...options,
     })
   }
@@ -42,7 +82,24 @@ export default class Request {
       requestInfo = mergeConfig(this, data)
       runRequestStart = true
       // 请求拦截器
-
+      if (this.requestInterceptors) {
+        const interceptor = this.requestInterceptors(requestInfo)
+        if (typeof interceptor === "object") {
+          const changekeys = ["data", "header", "isPrompt", "load", "isFactory"]
+          changekeys.forEach((key) => {
+            requestInfo[key] = interceptor[key]
+          })
+        } else {
+          throw new Error({
+            errMsg: "请求拦截器未通过",
+            statusCode: 0,
+            data: requestInfo.data,
+            method: requestInfo.method,
+            header: requestInfo.header,
+            url: requestInfo.url,
+          })
+        }
+      }
       // 发起请求
       let requestResult = {}
       if (requestInfo.method === "JSONP") {
@@ -52,14 +109,25 @@ export default class Request {
       }
 
       // 响应拦截器
-
+      if (requestInfo.isFactory && this.dataFactory) {
+        //数据处理
+        const result = await this.dataFactory({
+          ...requestInfo,
+          response: requestResult,
+        })
+        return Promise.resolve(result)
+      }
       // 输出结果
       return Promise.resolve(requestResult)
     } catch (error) {
+      if (this.requestError) {
+        this.requestError(error)
+      }
       return Promise.reject(error)
     } finally {
-      if (runRequestStart) {
+      if (runRequestStart && this.requestEnd) {
         // 结束请求
+        this.requestEnd(requestInfo)
       }
     }
   }
