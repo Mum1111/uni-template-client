@@ -14,7 +14,7 @@ module.exports = {
   plugins: ["vue", "prettier"],
   extends: ["plugin:vue/vue3-essential", "plugin:prettier/recommended", "airbnb-base"],
   parserOptions: {
-    // ecmaVersion: 2020,
+    ecmaVersion: 2020,
     sourceType: "module",
   },
   rules: {
