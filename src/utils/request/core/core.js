@@ -23,6 +23,13 @@ export default class Request {
     }
   }
 
+  /**
+   *
+   * @param {String} url
+   * @param {Object} data
+   * @param {Object} options
+   * @returns
+   */
   get(url = "", data = {}, options = {}) {
     return this.request({
       method: "GET",
@@ -32,7 +39,13 @@ export default class Request {
     })
   }
 
-  //post请求
+  /**
+   *
+   * @param {String} url
+   * @param {Object} data
+   * @param {Object} options
+   * @returns
+   */
   post(url = "", data = {}, options = {}) {
     return this.request({
       method: "POST",
@@ -42,7 +55,13 @@ export default class Request {
     })
   }
 
-  //put请求
+  /**
+   *
+   * @param {String} url
+   * @param {Object} data
+   * @param {Object} options
+   * @returns
+   */
   put(url = "", data = {}, options = {}) {
     return this.request({
       method: "PUT",
@@ -52,7 +71,13 @@ export default class Request {
     })
   }
 
-  //delete请求
+  /**
+   *
+   * @param {String} url
+   * @param {Object} data
+   * @param {Object} options
+   * @returns
+   */
   delete(url = "", data = {}, options = {}) {
     return this.request({
       method: "DELETE",
@@ -62,7 +87,13 @@ export default class Request {
     })
   }
 
-  //jsonp请求(只限于H5使用)
+  /**
+   *
+   * @param {String} url
+   * @param {Object} data
+   * @param {Object} options
+   * @returns
+   */
   jsonp(url = "", data = {}, options = {}) {
     return this.request({
       method: "JSONP",
