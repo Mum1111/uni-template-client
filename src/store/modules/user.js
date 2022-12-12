@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+import { removeItem, setItem } from "@/utils/storage"
 
 export const useUserInfoStore = defineStore({
   id: "user-info-store",
@@ -13,8 +14,12 @@ export const useUserInfoStore = defineStore({
   },
   actions: {
     setAuthToken(token) {
-      uni.setStorageSync("authToken", token)
+      setItem("authToken", token)
       this.authToken = token
+    },
+    removeAuthToken() {
+      removeItem("authToken")
+      this.authToken = ""
     },
   },
 })

@@ -42,12 +42,11 @@ request.requestEnd = function (options) {
 }
 
 request.dataFactory = async function (res) {
-  console.log(res)
-  // 如果是401 或者 403 重新登陆
   return Promise.resolve(res)
 }
 
 request.requestError = function (e) {
+  // 如果是401 或者 403 重新登陆
   if (e.statusCode === 0) {
     throw e
   } else {
