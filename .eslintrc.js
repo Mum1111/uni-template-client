@@ -33,6 +33,7 @@ module.exports = {
     "object-shorthand": 0,
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
+    "no-param-reassign": ["error", { "props": false }],
     "prettier/prettier": [
       "error",
       {
