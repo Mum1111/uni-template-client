@@ -17,7 +17,7 @@ const getBrowser = () => {
 const getLoginCode = (state) => {
   const appId = import.meta.VITE_H5_APPID
   const nowUrl = encodeURIComponent(window.location.href)
-  const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${nowUrl}&response_type=code&scope=snsapi_userinfo&state=${state}#wechat_redirect`
+  const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${nowUrl}&response_type=code&scope=snsapi_base&state=${state}#wechat_redirect`
 
   window.location.replace(url)
 }

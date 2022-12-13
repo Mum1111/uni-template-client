@@ -48,5 +48,6 @@ module.exports = {
     "prefer-template": 0,
     "import/extensions": 0,
     "import/no-unresolved": 0,
+    "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
   },
 }

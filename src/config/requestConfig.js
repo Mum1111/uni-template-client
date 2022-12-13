@@ -41,8 +41,21 @@ request.requestEnd = function (options) {
   }
 }
 
-request.dataFactory = async function (res) {
-  return Promise.resolve(res)
+request.dataFactory = function (res) {
+  console.log("dataFactory", res)
+  if (res.response.statusCode && res.response.statusCode === 200) {
+    const responseData = res.response.data
+
+    return Promise.resolve(responseData)
+  }
+
+  return Promise.reject(
+    new Error({
+      statusCode: res.response.statusCode,
+      errMsg: "数据工厂验证不通过",
+      data: res.response.data,
+    })
+  )
 }
 
 request.requestError = function (e) {
