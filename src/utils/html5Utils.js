@@ -1,11 +1,33 @@
-import { h5LoginState } from "@/apis/login"
+import { h5Auth, h5LoginState } from "@/apis/login"
+import { useUserInfoStore } from "@/store/modules/user"
+
+/**
+ * 获取url中的参数
+ */
+export const getUrlData = () => {
+  let strs
+  let url = window.location.href //获取url中"?"符后的字串
+  const theRequest = {}
+  if (url.indexOf("?") !== -1) {
+    url = url.substr(url.indexOf("?"))
+    const str = url.substr(1)
+    strs = str.split("&")
+    for (let i = 0; i < strs.length; i++) {
+      const index = strs[i].indexOf("=")
+      theRequest[strs[i].slice(0, index)] = unescape(strs[i].slice(index + 1, strs[i].length))
+    }
+  }
+
+  return theRequest
+}
 
 /**
  * 判断浏览器
  */
 const getBrowser = () => {
   const ua = navigator.userAgent.toLowerCase()
-  if (ua.match(/MicroMessenger/i) === "micromessenger") {
+  // eslint-disable-next-line eqeqeq
+  if (ua.match(/MicroMessenger/i) == "micromessenger") {
     return "微信"
   }
   return "其他"
@@ -15,21 +37,37 @@ const getBrowser = () => {
  * 公众号获取code
  */
 const getLoginCode = (state) => {
-  const appId = import.meta.VITE_H5_APPID
+  const appId = import.meta.env.VITE_H5_APPID
   const nowUrl = encodeURIComponent(window.location.href)
   const url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${nowUrl}&response_type=code&scope=snsapi_base&state=${state}#wechat_redirect`
 
   window.location.replace(url)
 }
 
+let isGetOpenId = true
 const h5Login = async () => {
-  if (getBrowser() !== "微信") {
-    const res = await h5LoginState()
-    console.log("res1", res)
-    // getLoginCode(state)
+  const getRequest = getUrlData()
+  if (getBrowser() === "微信") {
+    if (getRequest.code) {
+      if (isGetOpenId) {
+        isGetOpenId = false
+        const httpData = {
+          code: getRequest.code,
+          state: getRequest.state,
+        }
+
+        const { accessToken } = await h5Auth(httpData)
+        isGetOpenId = true
+        const userStore = useUserInfoStore()
+        userStore.setAuthToken(accessToken)
+      }
+    } else {
+      const res = await h5LoginState()
+      getLoginCode(res.state)
+    }
   } else {
     // TODO: 不是小程序的h5登陆
   }
 }
 
-export { getBrowser, h5Login, getLoginCode }
+export { getBrowser, h5Login }

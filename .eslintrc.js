@@ -49,5 +49,6 @@ module.exports = {
     "import/extensions": 0,
     "import/no-unresolved": 0,
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
+    "no-plusplus": 0,
   },
 }

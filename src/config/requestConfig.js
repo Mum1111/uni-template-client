@@ -29,7 +29,7 @@ request.requestInterceptors = function (options) {
   const store = useUserInfoStore()
   const token = store.authToken
   if (token) {
-    options.header.Authorization = "Bearer " + token
+    options.header.Authorization = token
   }
 
   return options
@@ -43,24 +43,28 @@ request.requestEnd = function (options) {
 
 request.dataFactory = function (res) {
   console.log("dataFactory", res)
+  const responseData = res.response.data
   if (res.response.statusCode && res.response.statusCode === 200) {
-    const responseData = res.response.data
-
     return Promise.resolve(responseData)
   }
 
-  return Promise.reject(
-    new Error({
-      statusCode: res.response.statusCode,
-      errMsg: "数据工厂验证不通过",
-      data: res.response.data,
+  if (res.isPrompt) {
+    uni.showToast({
+      title: responseData.message,
+      icon: "none",
     })
-  )
+  }
+
+  return Promise.reject(responseData)
 }
 
 request.requestError = function (e) {
   // 如果是401 或者 403 重新登陆
-  if (e.statusCode === 0) {
+  if (e.status === 401 || e.status === 403) {
+    // uni.showToast({
+    //   title: e.message,
+    //   icon: "none",
+    // })
     throw e
   } else {
     uni.showToast({

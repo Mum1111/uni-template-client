@@ -1,16 +1,13 @@
 <template>
   <view class="content">
     <view class="text-area">
-      <text class="title">{{ authToken }}</text>
-      <button @click="handleClick">点击</button>
+      <text class="title">123</text>
+      <!-- <button @click="handleClick">点击</button> -->
     </view>
   </view>
 </template>
 
 <script>
-import { computed } from "vue"
-import { useUserInfoStore } from "@/store/modules/user"
-
 export default {
   data() {
     return {
@@ -18,20 +15,9 @@ export default {
       s: 123,
     }
   },
-  setup() {
-    const store = useUserInfoStore()
-
-    return {
-      authToken: computed(() => store.authToken),
-      setAuthToken: store.setAuthToken,
-    }
-  },
+  setup() {},
   onLoad() {},
-  methods: {
-    handleClick() {
-      this.setAuthToken(this.title)
-    },
-  },
+  methods: {},
 }
 </script>
 

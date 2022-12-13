@@ -152,6 +152,7 @@ export default class Request {
       // 输出结果
       return Promise.resolve(requestResult)
     } catch (error) {
+      console.log("error", error)
       if (this.requestError) {
         this.requestError(error)
       }
