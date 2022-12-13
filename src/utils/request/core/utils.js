@@ -6,7 +6,7 @@ export const mergeConfig = (_this, options) => {
   if (options.method === "FILE") {
     config.url = urlType ? options.url : _this.fileUrl + options.url
   } else {
-    config.url = urlType ? options.url : _this.fileUrl + options.url
+    config.url = urlType ? options.url : _this.baseUrl + options.url
   }
 
   if (options.header) {
@@ -70,7 +70,7 @@ export const dispatchRequest = (requestInfo) => {
       requestData.withCredentials = withCredentials
     }
     // #endif
-
+    console.log("requestData", requestData)
     const requestTask = uni.request(requestData)
 
     setTimeout(() => {

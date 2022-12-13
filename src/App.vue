@@ -1,6 +1,10 @@
 <script>
+import { h5Login } from "@/utils/html5Utils"
+
 export default {
   onLaunch: function () {
+    const res = h5Login()
+    console.log("res", res)
     console.log("App Launch")
   },
   onShow: function () {

@@ -104,6 +104,7 @@ export default class Request {
   }
 
   async request(data) {
+    console.log("url", data.url)
     let requestInfo
     let runRequestStart = false
     if (!data.url) {

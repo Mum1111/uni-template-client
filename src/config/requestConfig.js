@@ -3,7 +3,7 @@ import { useUserInfoStore } from "@/store/modules/user"
 
 const request = new Request({
   //接口请求地址
-  baseUrl: "",
+  baseUrl: import.meta.env.VITE_API_URL,
   //服务器本地上传文件地址
   fileUrl: "",
   // 服务器上传图片默认url
