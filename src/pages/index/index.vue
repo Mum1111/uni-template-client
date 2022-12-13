@@ -8,15 +8,20 @@
 </template>
 
 <script>
+// #ifdef MP-WEIXIN
+import { mpLogin } from "@/utils/mpLogin"
+// #endif
+
 export default {
   data() {
-    return {
-      title: "Hello",
-      s: 123,
-    }
+    return {}
   },
   setup() {},
-  onLoad() {},
+  onLoad() {
+    // #ifdef MP-WEIXIN
+    mpLogin()
+    // #endif
+  },
   methods: {},
 }
 </script>
