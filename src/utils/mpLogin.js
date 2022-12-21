@@ -14,7 +14,6 @@ const mpLogin = () => {
   uni.login({
     provider: platform,
     success: async (res) => {
-      console.log("res", res)
       if (res.errMsg === "login:ok") {
         const { accessToken } = await wxAuth({ code: res.code })
         const userStore = useUserInfoStore()

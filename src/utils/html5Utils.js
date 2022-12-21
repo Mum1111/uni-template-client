@@ -21,6 +21,32 @@ export const getUrlData = () => {
   return theRequest
 }
 
+const delUrlParam = (url, field) => {
+  let str = ""
+  if (url.indexOf("?") !== -1) {
+    str = url.substr(url.indexOf("?") + 1)
+  } else {
+    return url
+  }
+  let arr = ""
+  let returnurl = ""
+  if (str.indexOf("&") !== -1) {
+    arr = str.split("&")
+    // eslint-disable-next-line no-restricted-syntax
+    for (const i in arr) {
+      if (arr[i].split("=")[0] !== field) {
+        returnurl = returnurl + arr[i].split("=")[0] + "=" + arr[i].split("=")[1] + "&"
+      }
+    }
+    return url.substr(0, url.indexOf("?")) + "?" + returnurl.substr(0, returnurl.length - 1)
+  }
+  arr = str.split("=")
+  if (arr[0] === field) {
+    return url.substr(0, url.indexOf("?"))
+  }
+  return url
+}
+
 /**
  * 判断浏览器
  */
@@ -44,26 +70,25 @@ const getLoginCode = (state) => {
   window.location.replace(url)
 }
 
-let isGetOpenId = true
 const h5Login = async () => {
   const getRequest = getUrlData()
   if (getBrowser() === "微信") {
     if (getRequest.code) {
-      if (isGetOpenId) {
-        isGetOpenId = false
-        const httpData = {
-          code: getRequest.code,
-          state: getRequest.state,
-        }
-
-        const { accessToken } = await h5Auth(httpData)
-        isGetOpenId = true
-        const userStore = useUserInfoStore()
-        userStore.setAuthToken(accessToken)
+      const httpData = {
+        code: getRequest.code,
+        state: getRequest.state,
       }
+      const { accessToken } = await h5Auth(httpData)
+      const userStore = useUserInfoStore()
+      userStore.setAuthToken(accessToken)
+      const url = delUrlParam(window.location.href, "code")
+      window.location.href = url
     } else {
+      const isLogin = window.sessionStorage.getItem("isLogin")
+      if (isLogin) return
       const res = await h5LoginState()
       getLoginCode(res.state)
+      window.sessionStorage.setItem("isLogin", true)
     }
   } else {
     // TODO: 不是小程序的h5登陆
