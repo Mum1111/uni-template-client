@@ -1,10 +1,5 @@
 <template>
-  <view class="content">
-    <view class="text-area">
-      <text class="title">123</text>
-      <!-- <button @click="handleClick">点击</button> -->
-    </view>
-  </view>
+  <view class="content">14</view>
 </template>
 
 <script>
@@ -26,12 +21,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: $uni-color-error;
 }
 
 .logo {

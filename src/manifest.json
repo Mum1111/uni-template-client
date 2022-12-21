@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "模版项目",
   "appid": "",
   "description": "",
   "versionName": "1.0.0",
@@ -70,5 +70,6 @@
   "uniStatistics": {
     "enable": false
   },
+  "h5": {},
   "vueVersion": "3"
 }
