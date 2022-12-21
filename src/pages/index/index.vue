@@ -1,5 +1,8 @@
 <template>
-  <view class="content">14</view>
+  <view class="content">
+    <button @click="chooseOne()">预约挂号</button>
+    <button>就诊人</button>
+  </view>
 </template>
 
 <script>
@@ -17,7 +20,12 @@ export default {
     mpLogin()
     // #endif
   },
-  methods: {},
+  methods: {
+    chooseOne() {
+      console.log(1)
+      uni.navigateTo({ url: "/subpages/registration/registration_campus" })
+    },
+  },
 }
 </script>
 
