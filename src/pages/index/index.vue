@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <button @click="chooseOne()">预约挂号</button>
+    <button @click="chooseOne('reg')">预约挂号</button>
     <button>就诊人</button>
   </view>
 </template>
@@ -21,9 +21,8 @@ export default {
     // #endif
   },
   methods: {
-    chooseOne() {
-      console.log(1)
-      uni.navigateTo({ url: "/subpages/registration/registration_campus" })
+    chooseOne(type) {
+      uni.navigateTo({ url: `/subpages/registration/registration_campus?type=${type}` })
     },
   },
 }

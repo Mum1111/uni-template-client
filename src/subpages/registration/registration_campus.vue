@@ -1,11 +1,9 @@
 <template>
   <view>
-    <!-- <tab-bar></tab-bar> -->
     <view class="container">
-      3306
-      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item.hosCode)">
+      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item.id)">
         <view class="hos_name">{{ item.name }}</view>
-        <view class="address">地址：{{ item.address }}</view>
+        <view class="address" v-if="item.address">地址：{{ item.address }}</view>
         <view class="button">点击预约</view>
       </view>
     </view>
@@ -13,18 +11,17 @@
 </template>
 <script>
 import { listCampus } from "@/apis/registration"
+import { config } from "@/config/hospitalConfig"
 
-// import TabBar from "../../components/tabBar/TabBar.vue"
 export default {
-  //   components: { TabBar },
-  props: {},
   data() {
     return {
       compuslist: [],
     }
   },
-  onLoad() {
-    this.loadCompusList()
+  onLoad(op) {
+    const { type } = op
+    this.loadCompusList(type)
   },
   methods: {
     goto(hosCode) {
@@ -32,14 +29,14 @@ export default {
         url: `/pages/registration/registration_secondary_deprtment?hosCode=${hosCode}`,
       })
     },
-    async loadCompusList() {
+    async loadCompusList(type) {
       const params = {
-        hospitalId: "218932024874287104",
-        type: 1,
+        hospitalId: config.hospitalId,
+        type,
       }
       try {
-        const { data } = await listCampus(params)
-        this.compuslist = data
+        const res = await listCampus(params)
+        this.compuslist = res
       } catch (error) {
         uni.showToast(error.data.message)
       }

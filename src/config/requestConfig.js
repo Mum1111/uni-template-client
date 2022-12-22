@@ -42,7 +42,6 @@ request.requestEnd = function (options) {
 }
 
 request.dataFactory = function (res) {
-  console.log("dataFactory", res)
   const responseData = res.response.data
   if (res.response.statusCode && res.response.statusCode === 200) {
     return Promise.resolve(responseData)
