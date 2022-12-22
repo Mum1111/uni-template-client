@@ -12,7 +12,8 @@
   </view>
 </template>
 <script>
-// import { getCompusList } from '@/api/registration'
+import { listCampus } from "@/apis/registration"
+
 // import TabBar from "../../components/tabBar/TabBar.vue"
 export default {
   //   components: { TabBar },
@@ -22,8 +23,8 @@ export default {
       compuslist: [],
     }
   },
-  created() {
-    // this.loadCompusList()
+  onLoad() {
+    this.loadCompusList()
   },
   methods: {
     goto(hosCode) {
@@ -31,14 +32,18 @@ export default {
         url: `/pages/registration/registration_secondary_deprtment?hosCode=${hosCode}`,
       })
     },
-    // async loadCompusList() {
-    //   try {
-    //     const { data } = await getCompusList()
-    //     this.compuslist = data
-    //   } catch (error) {
-    //     uni.showToast(error.data.message)
-    //   }
-    // },
+    async loadCompusList() {
+      const params = {
+        hospitalId: "218932024874287104",
+        type: 1,
+      }
+      try {
+        const { data } = await listCampus(params)
+        this.compuslist = data
+      } catch (error) {
+        uni.showToast(error.data.message)
+      }
+    },
   },
 }
 </script>
