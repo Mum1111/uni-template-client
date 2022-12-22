@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="container">
-      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item.id)">
+      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item.id, item.hospitalId)">
         <view class="hos_name">{{ item.name }}</view>
         <view class="address" v-if="item.address">地址：{{ item.address }}</view>
         <view class="button">点击预约</view>
@@ -24,9 +24,9 @@ export default {
     this.loadCompusList(type)
   },
   methods: {
-    goto(hosCode) {
+    goto(hospitalBranchId, hospitalId) {
       uni.navigateTo({
-        url: `/pages/registration/registration_secondary_deprtment?hosCode=${hosCode}`,
+        url: `/subpages/notice/notice_index?hospitalId=${hospitalId}&hospitalBranchId=${hospitalBranchId}`,
       })
     },
     async loadCompusList(type) {

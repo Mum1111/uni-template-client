@@ -24,6 +24,12 @@
           "style": {
             "navigationBarTitleText": "预约挂号"
           }
+        },
+        {
+          "path": "notice/notice_index",
+          "style": {
+            "navigationBarTitleText": "须知"
+          }
         }
       ]
     }
