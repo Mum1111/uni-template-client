@@ -1,16 +1,45 @@
 <template>
   <view>
     <view class="container">
-      <view class="box" @click="goReg()">
+      <view class="box" @click="goReg('reg')">
         <view class="hos_name">预约挂号</view>
       </view>
-      <view class="box" @click="goReg()">
+      <view class="box" @click="goReg('today')">
         <view class="hos_name">今日挂号</view>
       </view>
     </view>
   </view>
 </template>
 <script setup>
+import { onLoad } from "@dcloudio/uni-app"
+import { reactive } from "vue"
+import { listDepart } from "@/apis/registration"
+
+const state = reactive({ hospitalId: "", hospitalBranchId: "" })
+
+const loadDepartList = async (hospitalId, hospitalBranchId) => {
+  const requestData = {
+    hospitalId,
+    hospitalBranchId,
+    departType: 1,
+  }
+  try {
+    const res = await listDepart(requestData)
+    console.log(res)
+  } catch (error) {
+    uni.showToast({
+      title: error.data.message,
+      icon: "none",
+    })
+  }
+}
+
+onLoad((op) => {
+  state.hospitalId = op.hospitalId
+  state.hospitalBranchId = op.hospitalBranchId
+  loadDepartList(state.hospitalId, state.hospitalBranchId)
+})
+
 const goReg = () => {
   console.log(11)
 }

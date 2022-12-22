@@ -27,7 +27,7 @@ request.requestInterceptors = function (options) {
 
   // 在请求头中加入token
   const store = useUserInfoStore()
-  const token = store.authToken
+  const token = store.getAuthToken()
   if (token) {
     options.header.Authorization = token
   }

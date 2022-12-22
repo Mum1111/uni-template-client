@@ -1,10 +1,10 @@
 <template>
   <view>
     <view class="container">
-      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item.id, item.hospitalId)">
+      <view class="box" v-for="item in compuslist" :key="item.id" @click="goto(item)">
         <view class="hos_name">{{ item.name }}</view>
         <view class="address" v-if="item.address">地址：{{ item.address }}</view>
-        <view class="button">点击预约</view>
+        <view class="button" :class="item.status === 2 ? 'disable' : ''">点击预约</view>
       </view>
     </view>
   </view>
@@ -12,6 +12,7 @@
 <script>
 import { listCampus } from "@/apis/registration"
 import { config } from "@/config/hospitalConfig"
+import { CAMPUS_STATUS_ENUM } from "./enum"
 
 export default {
   data() {
@@ -24,9 +25,16 @@ export default {
     this.loadCompusList(type)
   },
   methods: {
-    goto(hospitalBranchId, hospitalId) {
+    goto(item) {
+      if (item.status === 2) {
+        uni.showToast({
+          title: CAMPUS_STATUS_ENUM[2],
+          icon: "none",
+        })
+        return
+      }
       uni.navigateTo({
-        url: `/subpages/notice/notice_index?hospitalId=${hospitalId}&hospitalBranchId=${hospitalBranchId}`,
+        url: `/subpages/notice/notice_index?hospitalId=${item.hospitalId}&hospitalBranchId=${item.id}`,
       })
     },
     async loadCompusList(type) {
@@ -55,7 +63,7 @@ export default {
     overflow: hidden;
     background-color: #fff;
     border-radius: 30rpx;
-    box-shadow: 0rpx 6rpx 16rpx 0rpx #ffe5f2;
+    box-shadow: 0rpx 6rpx 16rpx 0rpx $uni-color-scheme2;
     .hos_name {
       padding: 20rpx;
       font-size: 32rpx;
@@ -71,7 +79,11 @@ export default {
       height: 75rpx;
       color: #fff;
       font-size: 32rpx;
-      background-color: #d9418d;
+      background-color: $uni-color-scheme1;
+    }
+
+    .disable {
+      background-color: $uni-bg-color-mask;
     }
   }
 }

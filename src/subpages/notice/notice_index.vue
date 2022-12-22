@@ -35,7 +35,9 @@ onLoad((op) => {
 })
 
 const next = () => {
-  uni.navigateTo({ url: `/subpages/registration/registration_type?hospitalId=${state.hospitalId}&hospitalBranchId=${state.hospitalBranchId}` })
+  uni.navigateTo({
+    url: `/subpages/registration/registration_depart_list?hospitalId=${state.hospitalId}&hospitalBranchId=${state.hospitalBranchId}`,
+  })
 }
 </script>
 

@@ -26,9 +26,9 @@
           }
         },
         {
-          "path": "registration/registration_type",
+          "path": "registration/registration_depart_list",
           "style": {
-            "navigationBarTitleText": "预约类型"
+            "navigationBarTitleText": "选择科室"
           }
         },
         {
