@@ -26,6 +26,12 @@
           }
         },
         {
+          "path": "registration/registration_type",
+          "style": {
+            "navigationBarTitleText": "预约类型"
+          }
+        },
+        {
           "path": "notice/notice_index",
           "style": {
             "navigationBarTitleText": "须知"

@@ -24,14 +24,18 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  hospitalId: String,
-  hospitalBranchId: String,
+import { onLoad } from "@dcloudio/uni-app"
+import { reactive } from "vue"
+
+const state = reactive({ hospitalId: "", hospitalBranchId: "" })
+
+onLoad((op) => {
+  state.hospitalId = op.hospitalId
+  state.hospitalBranchId = op.hospitalBranchId
 })
 
-console.log("props", props)
 const next = () => {
-  //   uni.navigateTo({url:``})
+  uni.navigateTo({ url: `/subpages/registration/registration_type?hospitalId=${state.hospitalId}&hospitalBranchId=${state.hospitalBranchId}` })
 }
 </script>
 
