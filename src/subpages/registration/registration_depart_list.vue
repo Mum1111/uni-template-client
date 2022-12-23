@@ -1,21 +1,17 @@
 <template>
-  <view>
-    <view class="container">
-      <view class="box" @click="goReg('reg')">
-        <view class="hos_name">预约挂号</view>
-      </view>
-      <view class="box" @click="goReg('today')">
-        <view class="hos_name">今日挂号</view>
-      </view>
-    </view>
+  <view class="depart_list_container">
+    <SingleDepartList v-if="depart.type === 1" :departList="depart.departs" />
   </view>
 </template>
 <script setup>
 import { onLoad } from "@dcloudio/uni-app"
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import { listDepart } from "@/apis/registration"
+import SingleDepartList from "@/components/SingleDepartList.vue"
 
 const state = reactive({ hospitalId: "", hospitalBranchId: "" })
+
+const depart = ref({})
 
 const loadDepartList = async (hospitalId, hospitalBranchId) => {
   const requestData = {
@@ -26,6 +22,7 @@ const loadDepartList = async (hospitalId, hospitalBranchId) => {
   try {
     const res = await listDepart(requestData)
     console.log(res)
+    depart.value = res
   } catch (error) {
     uni.showToast({
       title: error.data.message,
@@ -39,40 +36,8 @@ onLoad((op) => {
   state.hospitalBranchId = op.hospitalBranchId
   loadDepartList(state.hospitalId, state.hospitalBranchId)
 })
-
-const goReg = () => {
-  console.log(11)
-}
 </script>
 <style scoped lang="scss">
-.container {
-  box-sizing: border-box;
-  padding: 40rpx;
-  .box {
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 40rpx;
-    overflow: hidden;
-    background-color: #fff;
-    border-radius: 30rpx;
-    box-shadow: 0rpx 6rpx 16rpx 0rpx #ffe5f2;
-    .hos_name {
-      padding: 20rpx;
-      font-size: 32rpx;
-      border-bottom: 2rpx solid #eee;
-    }
-    .address {
-      padding: 20rpx;
-    }
-    .button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 75rpx;
-      color: #fff;
-      font-size: 32rpx;
-      background-color: #d9418d;
-    }
-  }
+.depart_list_container {
 }
 </style>

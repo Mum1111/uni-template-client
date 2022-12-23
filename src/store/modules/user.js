@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { getItem, removeItem, setItem } from "@/utils/storage"
-import { h5Login } from "@/utils/html5Utils"
+// import { h5Login } from "@/utils/html5Utils"
 
 export const useUserInfoStore = defineStore({
   id: "user-info-store",
@@ -18,7 +18,7 @@ export const useUserInfoStore = defineStore({
       if (!this.authToken) {
         if (!getItem("authToken")) {
           // 重新登录
-          h5Login()
+          // h5Login()
           return ""
         }
         const token = getItem("authToken")
