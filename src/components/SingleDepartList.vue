@@ -67,9 +67,10 @@ export default {
       this.depList = depList
     },
     chooseOne(dep) {
-      uni.navigateTo({
-        url: `/pages/registration/registration_doctor_list?depCode=${dep.depId}&hosCode=${dep.hosCode}`,
-      })
+      this.$emit("chooseDept", dep)
+      //   uni.navigateTo({
+      //     url: `/pages/registration/registration_doctor_list?depCode=${dep.depId}&hosCode=${dep.hosCode}`,
+      //   })
     },
     chooseCharCode(char) {
       this.scrollTop = 0

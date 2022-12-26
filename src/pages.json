@@ -32,6 +32,12 @@
           }
         },
         {
+          "path": "registration/registration_doctor_list",
+          "style": {
+            "navigationBarTitleText": "选择医生"
+          }
+        },
+        {
           "path": "notice/notice_index",
           "style": {
             "navigationBarTitleText": "须知"

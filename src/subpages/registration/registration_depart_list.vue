@@ -1,6 +1,6 @@
 <template>
   <view class="depart_list_container">
-    <SingleDepartList v-if="depart.type === 1" :departList="depart.departs" />
+    <SingleDepartList v-if="depart.type === 1" :departList="depart.departs" @chooseDept="chooseDept" />
   </view>
 </template>
 <script setup>
@@ -21,7 +21,6 @@ const loadDepartList = async (hospitalId, hospitalBranchId) => {
   }
   try {
     const res = await listDepart(requestData)
-    console.log(res)
     depart.value = res
   } catch (error) {
     uni.showToast({
@@ -29,6 +28,13 @@ const loadDepartList = async (hospitalId, hospitalBranchId) => {
       icon: "none",
     })
   }
+}
+
+const chooseDept = (dep) => {
+  console.log("dep", dep)
+  uni.navigateTo({
+    url: `/subpages/registration/registration_doctor_list?hospitalId=${state.hospitalId}&hospitalBranchId=${state.hospitalBranchId}&departCode=${dep.departCode}&departId=${dep.departId}`,
+  })
 }
 
 onLoad((op) => {
